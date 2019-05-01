@@ -11,8 +11,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.Calendar;
+
 public class CarAndServiceDataFromFragment extends Fragment {
-    String[] years = {"2005", "2006", "2007", "2008", "2009", "2010"};
+    final String[] years = new String[14];
     String[] classes = {"А класс", "B класс", "C класс", "D класс","E класс"};
     String[] cities = {"Москва", "Санкт-Петербург", "Воронеж", "Новосибирск","Екатеринбург"};
 
@@ -20,13 +22,19 @@ public class CarAndServiceDataFromFragment extends Fragment {
     TextView mClassHintView;
     TextView mCityHintView;
     TextView mDealerHintView;
-    Spinner mClassesSpinner;
-    Spinner mCitiesSpinner;
-
+    
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+
+
+        Calendar calendar = Calendar.getInstance();
+        int currentYear = calendar.get(Calendar.YEAR);
+
+        for(int i = 0; i < 14; i++) {
+            years[i] = Integer.toString(currentYear - 15 + i);
+        }
     }
 
     @Nullable
