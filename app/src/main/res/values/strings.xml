@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Service Привилегия 3+</string>
+    <string name="dialog_fire_missiles">Fire missiles?</string>
+    <string name="fire">Fire</string>
+    <string name="cancel">Cancel</string>
+    <string name="vin_input_label">VIN</string>
+    <string name="vin_edit_text_hint">Введите VIN</string>
+    <string name="year_choose_hint">Выберете год выпуска</string>
+    <string name="year_choose_label">Год выпуска</string>
+    <string name="class_choose_label">Класс</string>
+    <string name="class_choose_hint">Выберете класс</string>
+    <string name="city_choose_label">Город</string>
+    <string name="city_choose_hint">Выберете город</string>
+    <string name="dealer_choose_label">Дилер</string>
+    <string name="dealer_choose_hint">Выберете дилера</string>
+    <string name="choose_gender_label">Обращение</string>
+    <string name="first_name_input_label">Фамилия</string>
+    <string name="first_name_input_hint">Введите Вашу Фамилию</string>
+    <string name="name_input_label">Имя</string>
+    <string name="Name_input_hint">Введите Ваше Имя</string>
+    <string name="patron_input_label">Отчество</string>
+    <string name="patron_name_input_hint">Введите Ваше Отчество</string>
+    <string name="phone_input_label">Телефон</string>
+    <string name="phone_input_hint">+7</string>
+    <string name="email_input_label">Email</string>
+    <string name="email_input_hint">Введите email адрес</string>
+    <string name="send_button_label">Готово</string>
+</resources>
