@@ -57,24 +57,6 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     @Override
-    protected void onResume() {
-        Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
-        super.onResume();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        //getMenuInflater().inflate(R.menu.menu_launch, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Log.d("LauncActiv", "Send button clicked");
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.gender_view_male:
