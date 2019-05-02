@@ -1,4 +1,4 @@
-package su.zencode.testapp05.ChooseDialogFragment;
+package su.zencode.testapp05.ChooseDialog;
 
 import android.app.Dialog;
 import android.content.DialogInterface;

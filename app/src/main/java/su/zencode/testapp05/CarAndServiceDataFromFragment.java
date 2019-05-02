@@ -15,8 +15,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import su.zencode.testapp05.ChooseDialogFragment.ChooseDialogFragment;
-import su.zencode.testapp05.ChooseDialogFragment.IChooseDialogListener;
+import su.zencode.testapp05.ChooseDialog.ChooseDialogFragment;
+import su.zencode.testapp05.ChooseDialog.IChooseDialogListener;
 import su.zencode.testapp05.IntravisionTestAppApiClient.IntraVisionApiClient;
 import su.zencode.testapp05.IntravisionTestAppRepositories.Entities.CarClass;
 import su.zencode.testapp05.IntravisionTestAppRepositories.Entities.City;

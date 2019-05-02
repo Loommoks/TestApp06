@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import su.zencode.testapp05.IntravisionTestAppRepositories.WorkSheetHolder;
+
 public class LaunchActivity extends AppCompatActivity implements View.OnClickListener {
     private Button mReadyButton;
     private TextView mMaleGenderView;
@@ -72,8 +74,11 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
                 mFemaleGenderView.setTextColor(getResources().getColor(android.R.color.white));
                 break;
             case R.id.ready_button:
-                Log.d("LauncActiv", "Send button clicked");
-                Toast.makeText(LaunchActivity.this, "Greeting", Toast.LENGTH_SHORT).show();
+                if(WorkSheetHolder.getInstance().isCompletelyFilled()){
+                    //todo send post request
+                } else {
+                    Toast.makeText(LaunchActivity.this, "Все поля обязательны для заполнения", Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
     }
