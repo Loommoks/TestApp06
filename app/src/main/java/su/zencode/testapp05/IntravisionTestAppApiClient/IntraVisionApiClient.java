@@ -1,5 +1,7 @@
 package su.zencode.testapp05.IntravisionTestAppApiClient;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -8,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import okhttp3.FormBody;
+import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -100,6 +103,32 @@ public class IntraVisionApiClient implements IIntraVisionApiClient {
 
     @Override
     public ArrayList<ShowRoom> getDealers(int cityId) {
+        if(mAuthTokenHolder.getToken() == null) {
+            mAuthTokenHolder.setAuthToken(getNewToken());
+        }
+        OkHttpClient client = new OkHttpClient();
+
+        String urlS = IntraVisionUrlsMap.HOST +IntraVisionUrlsMap.SHOW_ROOMS;
+
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(urlS).newBuilder();
+        urlBuilder.addQueryParameter("CityId", Integer.toString(cityId));
+        String url = urlBuilder.build().toString();
+        Log.d("CityId Url","CityId Url: " + url);
+        Request request = new Request.Builder()
+                .url(url)
+                .header("Accept", "application/json")
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + mAuthTokenHolder.getToken())
+                .build();
+
+        try {
+            Response response = client.newCall(request).execute();
+            if(response.isSuccessful()) {
+                return parseShowRoomsJson(response.body().string());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
@@ -169,6 +198,25 @@ public class IntraVisionApiClient implements IIntraVisionApiClient {
                 citiesArray.add(city);
             }
             return citiesArray;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private ArrayList<ShowRoom> parseShowRoomsJson(String jsonBody) {
+        try {
+            ArrayList<ShowRoom> showRoomsArray = new ArrayList<>();
+            JSONArray jsonArray = new JSONArray(jsonBody);
+            for(int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonShowRoom = jsonArray.getJSONObject(i);
+                ShowRoom showRoom = new ShowRoom(
+                        jsonShowRoom.getInt("Id"),
+                        jsonShowRoom.getString("Name"),
+                        jsonShowRoom.getInt("CityId"));
+                showRoomsArray.add(showRoom);
+            }
+            return showRoomsArray;
         } catch (JSONException e) {
             e.printStackTrace();
         }

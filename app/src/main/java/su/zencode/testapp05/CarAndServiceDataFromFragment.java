@@ -9,23 +9,35 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import su.zencode.testapp05.ChooseDialogFragment.ChooseDialogFragment;
+import su.zencode.testapp05.ChooseDialogFragment.IChooseDialogListener;
 import su.zencode.testapp05.IntravisionTestAppApiClient.IntraVisionApiClient;
 import su.zencode.testapp05.IntravisionTestAppRepositories.Entities.CarClass;
 import su.zencode.testapp05.IntravisionTestAppRepositories.Entities.City;
+import su.zencode.testapp05.IntravisionTestAppRepositories.Entities.ShowRoom;
 
 public class CarAndServiceDataFromFragment extends Fragment {
     final String[] years = new String[14];
     ArrayList<CarClass> mCarClassesList;
     ArrayList<City> mCitiesList;
+    ArrayList<ShowRoom> mShowRoomsList;
     String[] classes;
-    String[] cities = {"Москва", "Санкт-Петербург", "Воронеж", "Новосибирск","Екатеринбург"};
+    String[] cities;
+    String[] dealers;
+
+    //todo переместить все данные в отдельный объект
+    private int mChoosenYear;
+    private CarClass mChoosenCarClass;
+    private City mChoosenCity;
+    private ShowRoom mChoosenShowRoom;
+
+
 
     TextView mYearHintView;
     TextView mClassHintView;
@@ -83,14 +95,14 @@ public class CarAndServiceDataFromFragment extends Fragment {
         mClassHintView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showChooseDialog(mClassHintView, classes);
+                showClassChooseDialog(mClassHintView, classes);
             }
         });
     }
 
     private void initializeCityChooseViewGroup(View view) {
         mCityHintView = view.findViewById(R.id.city_choose_hint);
-        mClassHintView.setText("Загрузка...");
+        mCityHintView.setText("Загрузка...");
     }
 
     private void setupCityChooseViewGroup() {
@@ -98,7 +110,7 @@ public class CarAndServiceDataFromFragment extends Fragment {
         mCityHintView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showChooseDialog(mCityHintView, cities);
+                showCityChooseDialog(mCityHintView, cities);
             }
         });
     }
@@ -108,34 +120,75 @@ public class CarAndServiceDataFromFragment extends Fragment {
         mDealerHintView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(
+                        getActivity(),
+                        "Пожалуйста, сначала выберите город",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void setupDealerChooseViewGroup() {
+        mDealerHintView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 showDealerChooseDialog();
             }
         });
     }
 
-    private void showChooseDialog(TextView targetView, String[] dataArray) {
-        YearChooseDialogFragment dialogFragment = new YearChooseDialogFragment();
-        dialogFragment.setTarget(targetView);
-        dialogFragment.setArrayData(dataArray);
+    private void showClassChooseDialog(final TextView targetView,
+                                       final String[] dataArray) {
+        ChooseDialogFragment dialogFragment = new ChooseDialogFragment();
+        dialogFragment.setListener(new IChooseDialogListener() {
+            @Override
+            public void onItemSelected(int position) {
+                targetView.setText(dataArray[position]);
+                mChoosenCarClass = mCarClassesList.get(position);
+            }
+        });
+        dialogFragment.setArrayData(classes);
+        dialogFragment.show(getFragmentManager(), "custom");
+    }
+
+    private void showCityChooseDialog(final TextView targetView, final String[] dataArray) {
+        ChooseDialogFragment dialogFragment = new ChooseDialogFragment();
+        dialogFragment.setListener(new IChooseDialogListener() {
+            @Override
+            public void onItemSelected(int position) {
+                targetView.setText(dataArray[position]);
+                mChoosenCity = mCitiesList.get(position);
+                requestDealers(mChoosenCity.getId());
+            }
+        });
+        dialogFragment.setArrayData(cities);
         dialogFragment.show(getFragmentManager(), "custom");
     }
 
     private void showDealerChooseDialog() {
-        FireMissilesDialogFragment dialogFragment = new FireMissilesDialogFragment();
-        dialogFragment.setTarget(mDealerHintView);
+        ChooseDialogFragment dialogFragment = new ChooseDialogFragment();
+        dialogFragment.setListener(new IChooseDialogListener() {
+            @Override
+            public void onItemSelected(int position) {
+                mDealerHintView.setText(dealers[position]);
+                mChoosenShowRoom = mShowRoomsList.get(position);
+            }
+        });
+        dialogFragment.setArrayData(dealers);
         dialogFragment.show(getFragmentManager(), "custom");
     }
 
     private void showYearChooseDialog() {
-        YearChooseDialogFragment dialogFragment = new YearChooseDialogFragment();
-        dialogFragment.setTarget(mYearHintView);
+        ChooseDialogFragment dialogFragment = new ChooseDialogFragment();
+        dialogFragment.setListener(new IChooseDialogListener() {
+            @Override
+            public void onItemSelected(int position) {
+                mYearHintView.setText(years[position]);
+                mChoosenYear = Integer.parseInt(years[position]);
+            }
+        });
         dialogFragment.setArrayData(years);
         dialogFragment.show(getFragmentManager(), "custom");
-    }
-
-    private void setupDealerChooseViewGroup(View view, String[] data) {
-        mDealerHintView = view.findViewById(R.id.dealer_hint_view);
-
     }
 
     private void requestClasses() {
@@ -181,4 +234,27 @@ public class CarAndServiceDataFromFragment extends Fragment {
             }
         }.execute();
     }
+
+    private void requestDealers(int cityId) {
+        new AsyncTask<Integer, Void, Void>() {
+            ArrayList<ShowRoom> mResult;
+
+            @Override
+            protected Void doInBackground(Integer... id) {
+                mResult = new IntraVisionApiClient().getDealers(id[0]);
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                mShowRoomsList = mResult;
+                dealers = new String[mShowRoomsList.size()];
+                for(int i = 0; i < mShowRoomsList.size(); i++) {
+                    dealers[i] = mShowRoomsList.get(i).getName();
+                }
+                setupDealerChooseViewGroup();
+            }
+        }.execute(cityId);
+    }
+
 }
