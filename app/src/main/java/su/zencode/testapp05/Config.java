@@ -4,6 +4,7 @@ public class Config {
     public static class Settings {
         /** Datababe Objects TtL in milliseconds */
         public static final long DATABASE_DATA_TTL = 24*(60*60*1000);
+        public static final int NOT_INITIALIZED_INT_PARAMETER = -1;
     }
 
     public static class IntraVisionApi {

@@ -27,7 +27,7 @@
         <item name="android:inputType">text</item>
         <item name="android:lines">1</item>
         <item name="android:maxLength">20</item>
-        <item name="android:textColor">@android:color/holo_green_light</item>
+        <item name="android:textColor">@android:color/darker_gray</item>
         <item name="android:textSize">16sp</item>
     </style>
 

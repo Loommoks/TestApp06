@@ -35,11 +35,10 @@ public class CarAndServiceDataFromFragment extends Fragment implements IDataChec
     String[] dealers;
 
     //todo переместить все данные в отдельный объект
-    private String mVin;
-    private String mChoosenYear;
-    private CarClass mChoosenCarClass;
-    private City mChoosenCity;
-    private ShowRoom mChoosenShowRoom;
+    private String mChosenYear;
+    private CarClass mChosenClass;
+    private City mChosenCity;
+    private ShowRoom mChosenShowRoom;
     //todo </переместить..
 
     private WorkSheet mWorkSheet;
@@ -57,6 +56,10 @@ public class CarAndServiceDataFromFragment extends Fragment implements IDataChec
 
         mWorkSheet = WorkSheetHolder.getInstance().getWorkSheet();
 
+        initializeYearArray();
+    }
+
+    private void initializeYearArray() {
         Calendar calendar = Calendar.getInstance();
         int currentYear = calendar.get(Calendar.YEAR);
 
@@ -72,25 +75,21 @@ public class CarAndServiceDataFromFragment extends Fragment implements IDataChec
 
         mVinInputView = view.findViewById(R.id.vin_editText_view);
         if(mWorkSheet.getVin() != null) mVinInputView.setText(mWorkSheet.getVin());
+
         initializeYearChooseViewGroup(view);
         initializeClassChooseViewGroup(view);
         initializeCityChooseViewGroup(view);
-
         initializeDealerChooseViewGroup(view);
 
-        requestClasses();
-        requestCities();
-
         return view;
-
     }
 
     private void initializeYearChooseViewGroup(View view) {
         mYearHintView = view.findViewById(R.id.manufacture_year_hint);
-        if(mWorkSheet.getYear() != null) {
-            mChoosenYear = mWorkSheet.getYear();
-            mYearHintView.setText(mChoosenYear);
-        }
+        if(mChosenYear != null)
+            mYearHintView.setText(mChosenYear);
+        else setCachedChosenYear();
+
         mYearHintView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,9 +98,22 @@ public class CarAndServiceDataFromFragment extends Fragment implements IDataChec
         });
     }
 
+    private void setCachedChosenYear() {
+        if(mWorkSheet.getYear() != null) {
+            mYearHintView.setText(mWorkSheet.getYear());
+        }
+    }
+
     private void initializeClassChooseViewGroup(View view) {
         mClassHintView = view.findViewById(R.id.class_choose_hint);
-        mClassHintView.setText("Загрузка...");
+        if(classes != null) {
+            setupClassChooseViewGroup();
+            if(mChosenClass != null)
+                mClassHintView.setText(mChosenClass.getName());
+        } else {
+            mClassHintView.setText("Загрузка...");
+            requestClasses();
+        }
     }
 
     private void setupClassChooseViewGroup() {
@@ -116,7 +128,14 @@ public class CarAndServiceDataFromFragment extends Fragment implements IDataChec
 
     private void initializeCityChooseViewGroup(View view) {
         mCityHintView = view.findViewById(R.id.city_choose_hint);
-        mCityHintView.setText("Загрузка...");
+        if(cities != null) {
+            setupCityChooseViewGroup();
+            if(mChosenCity != null)
+                mCityHintView.setText(mChosenCity.getName());
+        } else {
+            mCityHintView.setText("Загрузка...");
+            requestCities();
+        }
     }
 
     private void setupCityChooseViewGroup() {
@@ -124,22 +143,28 @@ public class CarAndServiceDataFromFragment extends Fragment implements IDataChec
         mCityHintView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showCityChooseDialog(mCityHintView, cities);
+                showCityChoseDialog(mCityHintView, cities);
             }
         });
     }
 
     private void initializeDealerChooseViewGroup(View view) {
         mDealerHintView = view.findViewById(R.id.dealer_editText);
-        mDealerHintView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(
-                        getActivity(),
-                        "Пожалуйста, сначала выберите город",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
+        if(dealers != null && mChosenCity != null) {
+            setupDealerChooseViewGroup();
+            if (mChosenShowRoom != null)
+                mDealerHintView.setText(mChosenShowRoom.getName());
+        } else {
+            mDealerHintView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(
+                            getActivity(),
+                            "Пожалуйста, сначала выберите город",
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     private void setupDealerChooseViewGroup() {
@@ -159,22 +184,24 @@ public class CarAndServiceDataFromFragment extends Fragment implements IDataChec
             @Override
             public void onItemSelected(int position) {
                 targetView.setText(dataArray[position]);
-                mChoosenCarClass = mCarClassesList.get(position);
+                mChosenClass = mCarClassesList.get(position);
             }
         });
         dialogFragment.setArrayData(classes);
         dialogFragment.show(getFragmentManager(), "custom");
     }
 
-    private void showCityChooseDialog(final TextView targetView, final String[] dataArray) {
+    private void showCityChoseDialog(final TextView targetView, final String[] dataArray) {
         ChooseDialogFragment dialogFragment = new ChooseDialogFragment();
         dialogFragment.setListener(new IChooseDialogListener() {
             @Override
             public void onItemSelected(int position) {
                 targetView.setText(dataArray[position]);
-                mChoosenCity = mCitiesList.get(position);
+                mChosenCity = mCitiesList.get(position);
+                mChosenShowRoom = null;
+                dealers = null;
                 mDealerHintView.setText("Загрузка...");
-                requestDealers(mChoosenCity.getId());
+                requestDealers(mChosenCity.getId());
             }
         });
         dialogFragment.setArrayData(cities);
@@ -187,7 +214,7 @@ public class CarAndServiceDataFromFragment extends Fragment implements IDataChec
             @Override
             public void onItemSelected(int position) {
                 mDealerHintView.setText(dealers[position]);
-                mChoosenShowRoom = mShowRoomsList.get(position);
+                mChosenShowRoom = mShowRoomsList.get(position);
             }
         });
         dialogFragment.setArrayData(dealers);
@@ -200,7 +227,7 @@ public class CarAndServiceDataFromFragment extends Fragment implements IDataChec
             @Override
             public void onItemSelected(int position) {
                 mYearHintView.setText(years[position]);
-                mChoosenYear = years[position];
+                mChosenYear = years[position];
             }
         });
         dialogFragment.setArrayData(years);
@@ -278,25 +305,21 @@ public class CarAndServiceDataFromFragment extends Fragment implements IDataChec
     @Override
     public boolean checkProvidedData() {
         if(mVinInputView.getText().length() == 0) return false;
-
-        if(mChoosenYear == null) return false;
-        else if(mChoosenYear.length() == 0) return false;
-
-        if(mChoosenCarClass == null) return false;
-
-        if(mChoosenShowRoom == null) return false;
+        if(mChosenYear == null) return false;
+        else if(mChosenYear.length() == 0) return false;
+        if(mChosenClass == null) return false;
+        if(mChosenShowRoom == null) return false;
 
         return true;
     }
 
     @Override
     public void saveData() {
-        //if(!checkProvidedData()) return;
         mWorkSheet.setVin(mVinInputView.getText().toString());
-        mWorkSheet.setYear(mChoosenYear);
-        mWorkSheet.setClassId(mChoosenCarClass.getId());
-        mWorkSheet.setCityId(mChoosenCity.getId());
-        mWorkSheet.setShowRoomId(mChoosenShowRoom.getId());
+        mWorkSheet.setYear(mChosenYear);
+        mWorkSheet.setClassId(mChosenClass.getId());
+        mWorkSheet.setCityId(mChosenCity.getId());
+        mWorkSheet.setShowRoomId(mChosenShowRoom.getId());
     }
 
 }
