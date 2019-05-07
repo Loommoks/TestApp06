@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,8 +22,10 @@ import su.zencode.testapp05.IntravisionTestAppApiClient.IntraVisionApiClient;
 import su.zencode.testapp05.IntravisionTestAppRepositories.Entities.CarClass;
 import su.zencode.testapp05.IntravisionTestAppRepositories.Entities.City;
 import su.zencode.testapp05.IntravisionTestAppRepositories.Entities.ShowRoom;
+import su.zencode.testapp05.IntravisionTestAppRepositories.Entities.WorkSheet;
+import su.zencode.testapp05.IntravisionTestAppRepositories.WorkSheetHolder;
 
-public class CarAndServiceDataFromFragment extends Fragment {
+public class CarAndServiceDataFromFragment extends Fragment implements IDataChecker{
     final String[] years = new String[14];
     ArrayList<CarClass> mCarClassesList;
     ArrayList<City> mCitiesList;
@@ -32,13 +35,16 @@ public class CarAndServiceDataFromFragment extends Fragment {
     String[] dealers;
 
     //todo переместить все данные в отдельный объект
-    private int mChoosenYear;
+    private String mVin;
+    private String mChoosenYear;
     private CarClass mChoosenCarClass;
     private City mChoosenCity;
     private ShowRoom mChoosenShowRoom;
+    //todo </переместить..
 
+    private WorkSheet mWorkSheet;
 
-
+    EditText mVinInputView;
     TextView mYearHintView;
     TextView mClassHintView;
     TextView mCityHintView;
@@ -48,6 +54,8 @@ public class CarAndServiceDataFromFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+
+        mWorkSheet = WorkSheetHolder.getInstance().getWorkSheet();
 
         Calendar calendar = Calendar.getInstance();
         int currentYear = calendar.get(Calendar.YEAR);
@@ -62,6 +70,7 @@ public class CarAndServiceDataFromFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_car_and_service_data_form, container, false);
 
+        mVinInputView = view.findViewById(R.id.vin_editText_view);
         initializeYearChooseViewGroup(view);
         initializeClassChooseViewGroup(view);
         initializeCityChooseViewGroup(view);
@@ -116,7 +125,7 @@ public class CarAndServiceDataFromFragment extends Fragment {
     }
 
     private void initializeDealerChooseViewGroup(View view) {
-        mDealerHintView = view.findViewById(R.id.dealer_hint_view);
+        mDealerHintView = view.findViewById(R.id.email_editText);
         mDealerHintView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -184,7 +193,7 @@ public class CarAndServiceDataFromFragment extends Fragment {
             @Override
             public void onItemSelected(int position) {
                 mYearHintView.setText(years[position]);
-                mChoosenYear = Integer.parseInt(years[position]);
+                mChoosenYear = years[position];
             }
         });
         dialogFragment.setArrayData(years);
@@ -202,6 +211,7 @@ public class CarAndServiceDataFromFragment extends Fragment {
 
             @Override
             protected void onPostExecute(Void aVoid) {
+                if(mResult == null) return;
                 Log.d("FetcherClass",mResult.toString());
                 mCarClassesList = mResult;
                 classes = new String[mCarClassesList.size()];
@@ -225,6 +235,7 @@ public class CarAndServiceDataFromFragment extends Fragment {
 
             @Override
             protected void onPostExecute(Void aVoid) {
+                if(mResult == null) return;
                 mCitiesList = mResult;
                 cities = new String[mCitiesList.size()];
                 for(int i = 0; i < mCitiesList.size(); i++) {
@@ -255,6 +266,30 @@ public class CarAndServiceDataFromFragment extends Fragment {
                 setupDealerChooseViewGroup();
             }
         }.execute(cityId);
+    }
+
+    @Override
+    public boolean checkProvidedData() {
+        if(mVinInputView.getText().length() == 0) return false;
+
+        if(mChoosenYear == null) return false;
+        else if(mChoosenYear.length() == 0) return false;
+
+        if(mChoosenCarClass == null) return false;
+
+        if(mChoosenShowRoom == null) return false;
+
+        return true;
+    }
+
+    @Override
+    public void saveData() {
+        //if(!checkProvidedData()) return;
+        mWorkSheet.setVin(mVinInputView.getText().toString());
+        mWorkSheet.setYear(mChoosenYear);
+        mWorkSheet.setClassId(mChoosenCarClass.getId());
+        mWorkSheet.setCityId(mChoosenCity.getId());
+        mWorkSheet.setShowRoomId(mChoosenShowRoom.getId());
     }
 
 }

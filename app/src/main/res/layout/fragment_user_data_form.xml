@@ -80,11 +80,11 @@
             android:id="@+id/textView2"
             style="@style/ChooseLabelTheme"
             android:text="@string/first_name_input_label"
-            app:layout_constraintBottom_toBottomOf="@+id/editText2"
+            app:layout_constraintBottom_toBottomOf="@+id/lastName_editText"
             app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
-            android:id="@+id/editText2"
+            android:id="@+id/lastName_editText"
             style="@style/ChooseHintEditTextTheme"
             android:hint="@string/first_name_input_hint"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -112,11 +112,11 @@
             android:id="@+id/textView3"
             style="@style/ChooseLabelTheme"
             android:text="@string/name_input_label"
-            app:layout_constraintBottom_toBottomOf="@+id/editText3"
+            app:layout_constraintBottom_toBottomOf="@+id/firstName_editText"
             app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
-            android:id="@+id/editText3"
+            android:id="@+id/firstName_editText"
             style="@style/ChooseHintEditTextTheme"
             android:hint="@string/Name_input_hint"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -144,11 +144,11 @@
             android:id="@+id/textView4"
             style="@style/ChooseLabelTheme"
             android:text="@string/patron_input_label"
-            app:layout_constraintBottom_toBottomOf="@+id/editText4"
+            app:layout_constraintBottom_toBottomOf="@+id/middleName_editText"
             app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
-            android:id="@+id/editText4"
+            android:id="@+id/middleName_editText"
             style="@style/ChooseHintEditTextTheme"
             android:hint="@string/patron_name_input_hint"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -176,11 +176,11 @@
             android:id="@+id/textView5"
             style="@style/ChooseLabelTheme"
             android:text="@string/phone_input_label"
-            app:layout_constraintBottom_toBottomOf="@+id/editText5"
+            app:layout_constraintBottom_toBottomOf="@+id/phone_editText"
             app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
-            android:id="@+id/editText5"
+            android:id="@+id/phone_editText"
             style="@style/ChooseHintEditTextTheme"
             android:hint="@string/phone_input_hint"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -211,11 +211,11 @@
             android:id="@+id/textView6"
             style="@style/ChooseLabelTheme"
             android:text="@string/email_input_label"
-            app:layout_constraintBottom_toBottomOf="@+id/dealer_hint_view"
+            app:layout_constraintBottom_toBottomOf="@+id/email_editText"
             app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
-            android:id="@+id/dealer_hint_view"
+            android:id="@+id/email_editText"
             style="@style/ChooseHintEditTextTheme"
             android:hint="@string/email_input_hint"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -1,5 +1,6 @@
 package su.zencode.testapp05;
 
+import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -13,12 +14,21 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
+import su.zencode.testapp05.IntravisionTestAppApiClient.IntraVisionApiClient;
+import su.zencode.testapp05.IntravisionTestAppRepositories.Entities.ShowRoom;
+import su.zencode.testapp05.IntravisionTestAppRepositories.Entities.WorkSheet;
+import su.zencode.testapp05.IntravisionTestAppRepositories.UserDataBaseRepository;
 import su.zencode.testapp05.IntravisionTestAppRepositories.WorkSheetHolder;
 
 public class LaunchActivity extends AppCompatActivity implements View.OnClickListener {
     private Button mReadyButton;
-    private TextView mMaleGenderView;
-    private TextView mFemaleGenderView;
+
+    private IDataChecker mUserDataChecker;
+    private IDataChecker mCarDataChecker;
+
+    private UserDataBaseRepository mDataBaseRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,14 +38,20 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        mDataBaseRepository = UserDataBaseRepository.getInstance(getApplicationContext());
+        if(savedInstanceState == null) {
+            WorkSheet savedWorkSheet = mDataBaseRepository.get();
+            WorkSheetHolder.getInstance().updateWorkSheet(savedWorkSheet);
+        }
+
         FragmentManager fm = getSupportFragmentManager();
-        Fragment userDaraFragment = fm.findFragmentById(R.id.launch_activity_user_data_fragment_container);
+        Fragment userDataFragment = fm.findFragmentById(R.id.launch_activity_user_data_fragment_container);
         Fragment carAndDealerDataFragment = fm.findFragmentById(R.id.launch_activity_car_and_service_data_fragment_container);
 
-        if(userDaraFragment == null) {
-            userDaraFragment = new UserDataFormFragment();
+        if(userDataFragment == null) {
+            userDataFragment = new UserDataFormFragment();
             fm.beginTransaction()
-                    .add(R.id.launch_activity_user_data_fragment_container, userDaraFragment)
+                    .add(R.id.launch_activity_user_data_fragment_container, userDataFragment)
                     .commit();
         }
 
@@ -45,6 +61,10 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
                     .add(R.id.launch_activity_car_and_service_data_fragment_container, carAndDealerDataFragment)
                     .commit();
         }
+
+        mUserDataChecker = (IDataChecker) userDataFragment;
+        mCarDataChecker = (IDataChecker) carAndDealerDataFragment;
+
     }
 
     @Override
@@ -52,34 +72,46 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
         super.onStart();
         mReadyButton = findViewById(R.id.ready_button);
         mReadyButton.setOnClickListener(this);
-        mMaleGenderView = findViewById(R.id.gender_view_male);
-        mMaleGenderView.setOnClickListener(this);
-        mFemaleGenderView = findViewById(R.id.gender_view_female);
-        mFemaleGenderView.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.gender_view_male:
-                mMaleGenderView.setBackgroundColor(getResources().getColor(android.R.color.black));
-                mMaleGenderView.setTextColor(getResources().getColor(android.R.color.white));
-                mFemaleGenderView.setBackgroundColor(getResources().getColor(android.R.color.white));
-                mFemaleGenderView.setTextColor(getResources().getColor(android.R.color.black));
-                break;
-            case R.id.gender_view_female:
-                mMaleGenderView.setBackgroundColor(getResources().getColor(android.R.color.white));
-                mMaleGenderView.setTextColor(getResources().getColor(android.R.color.black));
-                mFemaleGenderView.setBackgroundColor(getResources().getColor(android.R.color.black));
-                mFemaleGenderView.setTextColor(getResources().getColor(android.R.color.white));
-                break;
             case R.id.ready_button:
-                if(WorkSheetHolder.getInstance().isCompletelyFilled()){
-                    //todo send post request
+                if(mUserDataChecker.checkProvidedData() && mCarDataChecker.checkProvidedData()) {
+                    mUserDataChecker.saveData();
+                    mCarDataChecker.saveData();
+                    if(WorkSheetHolder.getInstance().isCompletelyFilled()){
+                        //todo send post request
+                        Toast.makeText(LaunchActivity.this,
+                                "Все данные готовы к отправке",
+                                Toast.LENGTH_SHORT).show();
+                        sendBlank(WorkSheetHolder.getInstance().getWorkSheet());
+                        mDataBaseRepository.saveUserData(WorkSheetHolder.getInstance().getWorkSheet());
+                    } else {
+                        Toast.makeText(LaunchActivity.this,
+                                "Все поля обязательны для заполнения",
+                                Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    Toast.makeText(LaunchActivity.this, "Все поля обязательны для заполнения", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LaunchActivity.this,
+                            "Все поля обязательны для заполнения",
+                            Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
     }
+
+    private void sendBlank(final WorkSheet myWorkSheet) {
+        new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... v) {
+                new IntraVisionApiClient().sendWorkSheet(myWorkSheet);
+                return null;
+            }
+
+        }.execute();
+    }
+
 }

@@ -27,11 +27,11 @@
             android:id="@+id/textView"
             android:text="@string/vin_input_label"
             style="@style/ChooseLabelTheme"
-            app:layout_constraintBottom_toBottomOf="@+id/editText"
+            app:layout_constraintBottom_toBottomOf="@+id/vin_editText_view"
             app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/vin_editText_view"
             android:hint="@string/vin_edit_text_hint"
             style="@style/ChooseHintEditTextTheme"
             android:maxLength="17"
@@ -168,11 +168,11 @@
             android:id="@+id/textView6"
             android:text="@string/dealer_choose_label"
             style="@style/ChooseLabelTheme"
-            app:layout_constraintBottom_toBottomOf="@+id/dealer_hint_view"
+            app:layout_constraintBottom_toBottomOf="@+id/email_editText"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/dealer_hint_view"
+            android:id="@+id/email_editText"
             android:text="@string/dealer_choose_hint"
             style="@style/ChooseHintTheme"
             app:layout_constraintBottom_toBottomOf="parent"

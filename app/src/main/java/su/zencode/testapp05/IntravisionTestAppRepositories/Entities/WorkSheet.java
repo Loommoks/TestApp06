@@ -10,11 +10,13 @@ public class WorkSheet {
     private String mVin;
     private String mYear;
     private int mClassId;
+    private int mCityId;
     private int mShowRoomId;
 
     public WorkSheet() {
         mGender = -1;
         mClassId = -1;
+        mCityId = -1;
         mShowRoomId = -1;
     }
 
@@ -88,6 +90,14 @@ public class WorkSheet {
 
     public void setClassId(int classId) {
         mClassId = classId;
+    }
+
+    public int getCityId() {
+        return mCityId;
+    }
+
+    public void setCityId(int cityId) {
+        mCityId = cityId;
     }
 
     public int getShowRoomId() {

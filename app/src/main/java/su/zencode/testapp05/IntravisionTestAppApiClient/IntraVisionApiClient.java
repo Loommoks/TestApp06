@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import okhttp3.FormBody;
 import okhttp3.HttpUrl;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -19,9 +20,12 @@ import su.zencode.testapp05.Config.IntraVisionUrlsMap;
 import su.zencode.testapp05.IntravisionTestAppRepositories.Entities.CarClass;
 import su.zencode.testapp05.IntravisionTestAppRepositories.Entities.City;
 import su.zencode.testapp05.IntravisionTestAppRepositories.Entities.ShowRoom;
+import su.zencode.testapp05.IntravisionTestAppRepositories.Entities.WorkSheet;
 
 public class IntraVisionApiClient implements IIntraVisionApiClient {
     private AuthTokenHolder mAuthTokenHolder;
+    public static final MediaType JSON
+            = MediaType.parse("application/json");
 
     public IntraVisionApiClient() {
         mAuthTokenHolder = AuthTokenHolder.getInstance();
@@ -130,6 +134,62 @@ public class IntraVisionApiClient implements IIntraVisionApiClient {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public void sendWorkSheet(WorkSheet blank) {
+        JSONObject threePlusOrder = new JSONObject();
+        //JSONObject jsonResult = new JSONObject();
+        //JSONArray jsonArray = new JSONArray();
+        try {
+            threePlusOrder.put("Gender", blank.getGender());
+            threePlusOrder.put("LastName", blank.getLastName());
+            threePlusOrder.put("FirstName", blank.getFirstName());
+            threePlusOrder.put("MiddleName", blank.getMiddleName());
+            threePlusOrder.put("Email", blank.getEmail());
+            threePlusOrder.put("Phone", blank.getPhone());
+            threePlusOrder.put("Vin", blank.getVin());
+            threePlusOrder.put("YEAR", blank.getYear());
+            threePlusOrder.put("ClassId", blank.getClassId());
+            threePlusOrder.put("City", blank.getCityId());
+            threePlusOrder.put("ShowRoomId", blank.getShowRoomId());
+            //jsonResult.put("ThreePlusOrder", threePlusOrder);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        if(mAuthTokenHolder.getToken() == null) {
+            mAuthTokenHolder.setAuthToken(getNewToken());
+        }
+
+        OkHttpClient client = new OkHttpClient();
+
+        /*RequestBody requestBody = new FormBody.Builder()
+                .add("ThreePlusOrder", threePlusOrder.toString())
+                .build();*/
+
+        String tmp = threePlusOrder.toString();
+        RequestBody body = RequestBody.create(JSON, threePlusOrder.toString());
+
+        String url = IntraVisionUrlsMap.HOST + IntraVisionUrlsMap.WORKSHEETS;
+        Request request = new Request.Builder()
+                .url(url)
+                .header("Accept", "application/json")
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + mAuthTokenHolder.getToken())
+                .post(body)
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+            if (response.isSuccessful()) {
+                //todo some shit
+            } else {
+                String bodyR = response.body().string();
+                String message = response.message();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private String getNewToken() {
