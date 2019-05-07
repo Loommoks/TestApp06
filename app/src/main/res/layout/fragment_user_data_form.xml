@@ -211,11 +211,11 @@
             android:id="@+id/textView6"
             style="@style/ChooseLabelTheme"
             android:text="@string/email_input_label"
-            app:layout_constraintBottom_toBottomOf="@+id/email_editText"
+            app:layout_constraintBottom_toBottomOf="@+id/dealer_editText"
             app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
-            android:id="@+id/email_editText"
+            android:id="@+id/dealer_editText"
             style="@style/ChooseHintEditTextTheme"
             android:hint="@string/email_input_hint"
             app:layout_constraintBottom_toBottomOf="parent"

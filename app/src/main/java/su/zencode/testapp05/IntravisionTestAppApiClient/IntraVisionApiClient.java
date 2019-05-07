@@ -137,7 +137,7 @@ public class IntraVisionApiClient implements IIntraVisionApiClient {
     }
 
     @Override
-    public void sendWorkSheet(WorkSheet blank) {
+    public boolean sendWorkSheet(WorkSheet blank) {
         JSONObject threePlusOrder = new JSONObject();
         //JSONObject jsonResult = new JSONObject();
         //JSONArray jsonArray = new JSONArray();
@@ -182,14 +182,16 @@ public class IntraVisionApiClient implements IIntraVisionApiClient {
         try {
             Response response = client.newCall(request).execute();
             if (response.isSuccessful()) {
-                //todo some shit
+                return true;
             } else {
                 String bodyR = response.body().string();
                 String message = response.message();
+                return false;
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     private String getNewToken() {

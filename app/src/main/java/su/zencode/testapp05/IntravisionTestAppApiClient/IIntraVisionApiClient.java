@@ -11,5 +11,5 @@ public interface IIntraVisionApiClient {
     ArrayList<CarClass> getClasses();
     ArrayList<City> getCities();
     ArrayList<ShowRoom> getDealers(int cityId);
-    void sendWorkSheet(WorkSheet blank);
+    boolean sendWorkSheet(WorkSheet blank);
 }

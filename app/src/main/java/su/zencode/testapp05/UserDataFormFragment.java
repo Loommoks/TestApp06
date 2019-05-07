@@ -49,7 +49,7 @@ public class UserDataFormFragment extends Fragment implements IDataChecker, View
         mFirstNameInputView = view.findViewById(R.id.firstName_editText);
         mMiddleNameInputView = view.findViewById(R.id.middleName_editText);
         mPhoneInputView = view.findViewById(R.id.phone_editText);
-        mEmailInputView = view.findViewById(R.id.email_editText);
+        mEmailInputView = view.findViewById(R.id.dealer_editText);
 
         mMaleGenderView = view.findViewById(R.id.gender_view_male);
         mMaleGenderView.setOnClickListener(this);
@@ -90,7 +90,7 @@ public class UserDataFormFragment extends Fragment implements IDataChecker, View
 
     @Override
     public void saveData() {
-        mWorkSheet.setGender(mChoosenGender);   
+        mWorkSheet.setGender(mChoosenGender);
         mWorkSheet.setLastName(mLastNameInputView.getText().toString());
         mWorkSheet.setFirstName(mFirstNameInputView.getText().toString());
         mWorkSheet.setMiddleName(mMiddleNameInputView.getText().toString());

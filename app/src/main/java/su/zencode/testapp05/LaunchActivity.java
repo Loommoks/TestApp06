@@ -41,7 +41,8 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
         mDataBaseRepository = UserDataBaseRepository.getInstance(getApplicationContext());
         if(savedInstanceState == null) {
             WorkSheet savedWorkSheet = mDataBaseRepository.get();
-            WorkSheetHolder.getInstance().updateWorkSheet(savedWorkSheet);
+            if(savedWorkSheet != null)
+                WorkSheetHolder.getInstance().updateWorkSheet(savedWorkSheet);
         }
 
         FragmentManager fm = getSupportFragmentManager();
@@ -82,10 +83,6 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
                     mUserDataChecker.saveData();
                     mCarDataChecker.saveData();
                     if(WorkSheetHolder.getInstance().isCompletelyFilled()){
-                        //todo send post request
-                        Toast.makeText(LaunchActivity.this,
-                                "Все данные готовы к отправке",
-                                Toast.LENGTH_SHORT).show();
                         sendBlank(WorkSheetHolder.getInstance().getWorkSheet());
                         mDataBaseRepository.saveUserData(WorkSheetHolder.getInstance().getWorkSheet());
                     } else {
@@ -103,14 +100,27 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void sendBlank(final WorkSheet myWorkSheet) {
-        new AsyncTask<Void, Void, Void>() {
+        new AsyncTask<Void, Void, Boolean>() {
 
             @Override
-            protected Void doInBackground(Void... v) {
-                new IntraVisionApiClient().sendWorkSheet(myWorkSheet);
-                return null;
+            protected Boolean doInBackground(Void... v) {
+                return new IntraVisionApiClient().sendWorkSheet(myWorkSheet);
             }
 
+            @Override
+            protected void onPostExecute(Boolean responseIsSuccessful) {
+                if(responseIsSuccessful) {
+                    Toast.makeText(
+                            LaunchActivity.this,
+                            "Заявка успешно принята сервером",
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(
+                            LaunchActivity.this,
+                            "Заявка отклонена сервером",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
         }.execute();
     }
 

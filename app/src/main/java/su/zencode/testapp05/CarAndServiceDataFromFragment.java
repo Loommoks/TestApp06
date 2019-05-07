@@ -71,6 +71,7 @@ public class CarAndServiceDataFromFragment extends Fragment implements IDataChec
         View view = inflater.inflate(R.layout.fragment_car_and_service_data_form, container, false);
 
         mVinInputView = view.findViewById(R.id.vin_editText_view);
+        if(mWorkSheet.getVin() != null) mVinInputView.setText(mWorkSheet.getVin());
         initializeYearChooseViewGroup(view);
         initializeClassChooseViewGroup(view);
         initializeCityChooseViewGroup(view);
@@ -86,6 +87,10 @@ public class CarAndServiceDataFromFragment extends Fragment implements IDataChec
 
     private void initializeYearChooseViewGroup(View view) {
         mYearHintView = view.findViewById(R.id.manufacture_year_hint);
+        if(mWorkSheet.getYear() != null) {
+            mChoosenYear = mWorkSheet.getYear();
+            mYearHintView.setText(mChoosenYear);
+        }
         mYearHintView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,7 +130,7 @@ public class CarAndServiceDataFromFragment extends Fragment implements IDataChec
     }
 
     private void initializeDealerChooseViewGroup(View view) {
-        mDealerHintView = view.findViewById(R.id.email_editText);
+        mDealerHintView = view.findViewById(R.id.dealer_editText);
         mDealerHintView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,6 +143,7 @@ public class CarAndServiceDataFromFragment extends Fragment implements IDataChec
     }
 
     private void setupDealerChooseViewGroup() {
+        mDealerHintView.setText(R.string.dealer_choose_hint);
         mDealerHintView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -167,6 +173,7 @@ public class CarAndServiceDataFromFragment extends Fragment implements IDataChec
             public void onItemSelected(int position) {
                 targetView.setText(dataArray[position]);
                 mChoosenCity = mCitiesList.get(position);
+                mDealerHintView.setText("Загрузка...");
                 requestDealers(mChoosenCity.getId());
             }
         });
