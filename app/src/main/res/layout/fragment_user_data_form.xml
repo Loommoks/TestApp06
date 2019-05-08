@@ -183,6 +183,8 @@
             android:id="@+id/phone_editText"
             style="@style/ChooseHintEditTextTheme"
             android:hint="@string/phone_input_hint"
+            android:inputType="number"
+            android:maxLength="17"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView5"

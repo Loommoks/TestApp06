@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,9 @@ public class UserDataFormFragment extends Fragment implements IDataChecker, View
         mMiddleNameInputView = view.findViewById(R.id.middleName_editText);
         mPhoneInputView = view.findViewById(R.id.phone_editText);
         mEmailInputView = view.findViewById(R.id.dealer_editText);
+
+        /** Mask test*/
+        mPhoneInputView.addTextChangedListener(new MyCustomTextWatcher(mPhoneInputView));
 
         mMaleGenderView = view.findViewById(R.id.gender_view_male);
         mMaleGenderView.setOnClickListener(this);
