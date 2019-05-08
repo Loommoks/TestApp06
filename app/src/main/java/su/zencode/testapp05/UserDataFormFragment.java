@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import su.zencode.testapp05.IntravisionTestAppRepositories.Entities.WorkSheet;
-import su.zencode.testapp05.IntravisionTestAppRepositories.UserDataBaseRepository;
 import su.zencode.testapp05.IntravisionTestAppRepositories.WorkSheetHolder;
 
 public class UserDataFormFragment extends Fragment implements IDataChecker, View.OnClickListener {
@@ -29,9 +27,8 @@ public class UserDataFormFragment extends Fragment implements IDataChecker, View
     private EditText mPhoneInputView;
     private EditText mEmailInputView;
 
-    private int mChoosenGender;
+    private int mChosenGender;
     private WorkSheet mWorkSheet;
-    private UserDataBaseRepository mDataBaseRepository;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,7 +49,6 @@ public class UserDataFormFragment extends Fragment implements IDataChecker, View
         mPhoneInputView = view.findViewById(R.id.phone_editText);
         mEmailInputView = view.findViewById(R.id.dealer_editText);
 
-        /** Mask test*/
         mPhoneInputView.addTextChangedListener(new MyCustomTextWatcher(mPhoneInputView));
 
         mMaleGenderView = view.findViewById(R.id.gender_view_male);
@@ -94,7 +90,7 @@ public class UserDataFormFragment extends Fragment implements IDataChecker, View
 
     @Override
     public void saveData() {
-        mWorkSheet.setGender(mChoosenGender);
+        mWorkSheet.setGender(mChosenGender);
         mWorkSheet.setLastName(mLastNameInputView.getText().toString());
         mWorkSheet.setFirstName(mFirstNameInputView.getText().toString());
         mWorkSheet.setMiddleName(mMiddleNameInputView.getText().toString());
@@ -115,7 +111,7 @@ public class UserDataFormFragment extends Fragment implements IDataChecker, View
     }
 
     private void setMaleGender() {
-        mChoosenGender = MALE_GENDER;
+        mChosenGender = MALE_GENDER;
         mMaleGenderView.setBackgroundColor(getResources().getColor(android.R.color.black));
         mMaleGenderView.setTextColor(getResources().getColor(android.R.color.white));
         mFemaleGenderView.setBackgroundColor(getResources().getColor(android.R.color.white));
@@ -123,7 +119,7 @@ public class UserDataFormFragment extends Fragment implements IDataChecker, View
     }
 
     private void setFemaleGender() {
-        mChoosenGender = FEMALE_GENDER;
+        mChosenGender = FEMALE_GENDER;
         mMaleGenderView.setBackgroundColor(getResources().getColor(android.R.color.white));
         mMaleGenderView.setTextColor(getResources().getColor(android.R.color.black));
         mFemaleGenderView.setBackgroundColor(getResources().getColor(android.R.color.black));

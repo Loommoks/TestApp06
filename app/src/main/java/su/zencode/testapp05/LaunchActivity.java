@@ -6,18 +6,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 
 import su.zencode.testapp05.IntravisionTestAppApiClient.IntraVisionApiClient;
-import su.zencode.testapp05.IntravisionTestAppRepositories.Entities.ShowRoom;
 import su.zencode.testapp05.IntravisionTestAppRepositories.Entities.WorkSheet;
 import su.zencode.testapp05.IntravisionTestAppRepositories.UserDataBaseRepository;
 import su.zencode.testapp05.IntravisionTestAppRepositories.WorkSheetHolder;
@@ -87,12 +81,12 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
                         mDataBaseRepository.saveUserData(WorkSheetHolder.getInstance().getWorkSheet());
                     } else {
                         Toast.makeText(LaunchActivity.this,
-                                "Все поля обязательны для заполнения",
+                                R.string.fill_all_fields,
                                 Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     Toast.makeText(LaunchActivity.this,
-                            "Все поля обязательны для заполнения",
+                            R.string.fill_all_fields,
                             Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -112,12 +106,12 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
                 if(responseIsSuccessful) {
                     Toast.makeText(
                             LaunchActivity.this,
-                            "Заявка успешно принята сервером",
+                            R.string.request_success,
                             Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(
                             LaunchActivity.this,
-                            "Заявка отклонена сервером",
+                            R.string.request_failed,
                             Toast.LENGTH_LONG).show();
                 }
             }

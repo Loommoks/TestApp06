@@ -25,4 +25,9 @@
     <string name="email_input_label">Email</string>
     <string name="email_input_hint">Введите email адрес</string>
     <string name="send_button_label">Готово</string>
+    <string name="loading_label">Загрузка...</string>
+    <string name="select_city_first">Пожалуйста, сначала выберите город</string>
+    <string name="fill_all_fields">Все поля обязательны для заполнения</string>
+    <string name="request_success">Заявка успешно принята сервером</string>
+    <string name="request_failed">Заявка отклонена сервером</string>
 </resources>

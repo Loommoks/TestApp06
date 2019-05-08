@@ -34,12 +34,10 @@ public class CarAndServiceDataFromFragment extends Fragment implements IDataChec
     String[] cities;
     String[] dealers;
 
-    //todo переместить все данные в отдельный объект
     private String mChosenYear;
     private CarClass mChosenClass;
     private City mChosenCity;
     private ShowRoom mChosenShowRoom;
-    //todo </переместить..
 
     private WorkSheet mWorkSheet;
 
@@ -88,7 +86,6 @@ public class CarAndServiceDataFromFragment extends Fragment implements IDataChec
         mYearHintView = view.findViewById(R.id.manufacture_year_hint);
         if(mChosenYear != null)
             mYearHintView.setText(mChosenYear);
-        else setCachedChosenYear();
 
         mYearHintView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,11 +95,6 @@ public class CarAndServiceDataFromFragment extends Fragment implements IDataChec
         });
     }
 
-    private void setCachedChosenYear() {
-        if(mWorkSheet.getYear() != null) {
-            mYearHintView.setText(mWorkSheet.getYear());
-        }
-    }
 
     private void initializeClassChooseViewGroup(View view) {
         mClassHintView = view.findViewById(R.id.class_choose_hint);
@@ -111,7 +103,7 @@ public class CarAndServiceDataFromFragment extends Fragment implements IDataChec
             if(mChosenClass != null)
                 mClassHintView.setText(mChosenClass.getName());
         } else {
-            mClassHintView.setText("Загрузка...");
+            mClassHintView.setText(R.string.loading_label);
             requestClasses();
         }
     }
@@ -133,7 +125,7 @@ public class CarAndServiceDataFromFragment extends Fragment implements IDataChec
             if(mChosenCity != null)
                 mCityHintView.setText(mChosenCity.getName());
         } else {
-            mCityHintView.setText("Загрузка...");
+            mCityHintView.setText(R.string.loading_label);
             requestCities();
         }
     }
@@ -160,7 +152,7 @@ public class CarAndServiceDataFromFragment extends Fragment implements IDataChec
                 public void onClick(View v) {
                     Toast.makeText(
                             getActivity(),
-                            "Пожалуйста, сначала выберите город",
+                            R.string.select_city_first,
                             Toast.LENGTH_SHORT).show();
                 }
             });
@@ -200,7 +192,7 @@ public class CarAndServiceDataFromFragment extends Fragment implements IDataChec
                 mChosenCity = mCitiesList.get(position);
                 mChosenShowRoom = null;
                 dealers = null;
-                mDealerHintView.setText("Загрузка...");
+                mDealerHintView.setText(R.string.loading_label);
                 requestDealers(mChosenCity.getId());
             }
         });

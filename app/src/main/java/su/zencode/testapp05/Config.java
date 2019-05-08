@@ -2,25 +2,55 @@ package su.zencode.testapp05;
 
 public class Config {
     public static class Settings {
-        /** Datababe Objects TtL in milliseconds */
-        public static final long DATABASE_DATA_TTL = 24*(60*60*1000);
-        public static final int NOT_INITIALIZED_INT_PARAMETER = -1;
     }
 
     public static class IntraVisionApi {
 
-        public static final String API_KEY = "i&j*3&^2TZ&d";
+        public static final String AUTH_KEY = "Q3VzdG9tR3JhbnRUeXBlQ2xpZW50SWQ6Q3VzdG9tR3JhbnRUeXBlQ2xpZW50U2VjcmV0";
+
+        public static class HEADERS_PARAMETERS {
+            public static final String ACCEPT_KEY = "Accept";
+            public static final String KEY_VALUE_JSON = "application/json";
+            public static final String CONTENT_TYPE_KEY = "Content-Type";
+            public static final String AUTHORIZATION_KEY = "Authorization";
+            public static final String KEY_VALUE_URLENCODED = "application/x-www-form-urlencoded";
+
+            public static final String KEY_VALUE_BEARER = "Bearer ";
+            public static final String KEY_VALUE_BASIC = "Basic ";
+
+        }
+
+        public static class URI_PARAMETERS {
+            public static final String CITY_ID_KEY = "CityId";
+        }
+
+        public static class BODY_PARAMETERS {
+            public static final String GRANT_TYPE_KEY = "grant_type";
+            public static final String SCOPE_KEY = "scope";
+            public static final String KEY_VALUE_CUSTOM_CREDENTIALS = "custom_client_credentials";
+            public static final String KEY_VALUE_PROFILE = "profile";
+        }
+
+        public static class JsonSerializeMap {
+            public static final String GENDER = "Gender";
+            public static final String LASTNAME = "LastName";
+            public static final String FIRSTNAME = "FirstName";
+            public static final String MIDDLENAME = "MiddleName";
+            public static final String EMAIL = "Email";
+            public static final String PHONE = "Phone";
+            public static final String VIN = "Vin";
+            public static final String YEAR = "Year";
+            public static final String CLASS_ID = "ClassId";
+            public static final String CITY_ID = "City";
+            public static final String SHOWROOM_ID = "ShowRoomId";
+
+        }
 
         public static class JsonDeserializeMap {
-            public static final String JSON_ARRAY_SUB_CATEGORIES = "categories";
-            public static final String JSON_ARRAY_OFFERS = "offers";
-            public static final String JSON_SUB_CATEGORY_ID = "id";
-            public static final String JSON_SUB_CATEGORY_NAME = "name";
-            public static final String JSON_SUB_CATEGORY_HAS_SUBCATEGORIES = "subcategories";
-            public static final String JSON_OFFER_ID = "id";
-            public static final String JSON_OFFER_PICTURES_URLS_ARRAY = "pictures";
-            public static final String JSON_OFFER_NAME = "name";
-            public static final String JSON_OFFER_ICON_URL = "icon";
+            public static final String ACCESS_TOKEN = "access_token";
+            public static final String ID = "Id";
+            public static final String NAME = "Name";
+            public static final String CITY_ID = "CityId";
         }
 
         public static class Credentials {

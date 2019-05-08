@@ -53,7 +53,6 @@ public class MyCustomTextWatcher implements TextWatcher {
             completeNewText = before + aNew + after;
             startUpdate();
             mEditText.setText(completeNewText);
-            mEditText.setSelection(completeNewText.length());
             endUpdate();
         }
 
