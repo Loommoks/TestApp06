@@ -1,4 +1,4 @@
-package su.zencode.testapp05.IntravisionTestAppRepositories.Entities;
+package su.zencode.testapp05.intravisiontestapprepositories.entities;
 
 public class ShowRoom {
     private int mId;

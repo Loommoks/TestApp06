@@ -1,4 +1,4 @@
-package su.zencode.testapp05;
+  package su.zencode.testapp05;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import su.zencode.testapp05.IntravisionTestAppRepositories.Entities.WorkSheet;
-import su.zencode.testapp05.IntravisionTestAppRepositories.WorkSheetHolder;
+import su.zencode.testapp05.intravisiontestapprepositories.entities.WorkSheet;
+import su.zencode.testapp05.intravisiontestapprepositories.WorkSheetHolder;
 
 public class UserDataFormFragment extends Fragment implements IDataChecker, View.OnClickListener {
     private static final int GENDER_NOT_SELECTED = -1;
@@ -112,18 +112,18 @@ public class UserDataFormFragment extends Fragment implements IDataChecker, View
 
     private void setMaleGender() {
         mChosenGender = MALE_GENDER;
-        mMaleGenderView.setBackgroundColor(getResources().getColor(android.R.color.black));
-        mMaleGenderView.setTextColor(getResources().getColor(android.R.color.white));
-        mFemaleGenderView.setBackgroundColor(getResources().getColor(android.R.color.white));
-        mFemaleGenderView.setTextColor(getResources().getColor(android.R.color.black));
-    }
-
-    private void setFemaleGender() {
-        mChosenGender = FEMALE_GENDER;
         mMaleGenderView.setBackgroundColor(getResources().getColor(android.R.color.white));
         mMaleGenderView.setTextColor(getResources().getColor(android.R.color.black));
         mFemaleGenderView.setBackgroundColor(getResources().getColor(android.R.color.black));
         mFemaleGenderView.setTextColor(getResources().getColor(android.R.color.white));
+    }
+
+    private void setFemaleGender() {
+        mChosenGender = FEMALE_GENDER;
+        mMaleGenderView.setBackgroundColor(getResources().getColor(android.R.color.black));
+        mMaleGenderView.setTextColor(getResources().getColor(android.R.color.white));
+        mFemaleGenderView.setBackgroundColor(getResources().getColor(android.R.color.white));
+        mFemaleGenderView.setTextColor(getResources().getColor(android.R.color.black));
     }
 
 }

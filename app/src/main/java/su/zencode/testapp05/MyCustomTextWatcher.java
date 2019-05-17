@@ -45,7 +45,30 @@ public class MyCustomTextWatcher implements TextWatcher {
         String code_template = "+7";
         String phone_mask_template = "(XXX)-XXX-XX-XX";
 
-        if(aNew.length() == 0) return;
+        if (completeOldText.contains(code_template) && !completeNewText.contains(code_template)){
+
+            if(old.contains("+") && !aNew.contains("+")) {
+                if (aNew.length() == 0) {
+                    startUpdate();
+                    mEditText.setText(completeOldText);
+                    mEditText.setSelection(completeOldText.length());
+                    endUpdate();
+                    return;
+                }
+            }
+
+            if(old.contains("7") && !aNew.contains("7")) {
+                if (aNew.length() == 0) {
+                    startUpdate();
+                    mEditText.setText(completeOldText);
+                    mEditText.setSelection(completeOldText.length());
+                    endUpdate();
+                    return;
+                }
+            }
+        }
+
+        //if(aNew.length() == 0) return;
 
         if(completeOldText.length() < code_template.length() && completeOldText.length() < 3) {
             String prefix = code_template.substring(completeOldText.length(), code_template.length());
@@ -61,11 +84,26 @@ public class MyCustomTextWatcher implements TextWatcher {
         decodedPhone = decodedPhone.replace(")","");
         decodedPhone = decodedPhone.replace("-","");
         decodedPhone = decodedPhone.replace("+","");
+
+        if(decodedPhone.length() == 0) {
+            startUpdate();
+            mEditText.setText(code_template);
+            mEditText.setSelection(code_template.length());
+            endUpdate();
+            return;
+        }
+
+        if(decodedPhone.length() > 10) {
+            decodedPhone = decodedPhone.substring(0,10);
+        }
+
         StringBuffer stringBuffer = new StringBuffer(phone_mask_template);
         int x_index;
         for(int i = 0; i < decodedPhone.length(); i++){
             x_index = stringBuffer.indexOf("X");
             stringBuffer.setCharAt(x_index,decodedPhone.charAt(i));
+
+
             if(i == decodedPhone.length() - 1 && i < 3) {
                 stringBuffer.delete(i+2, stringBuffer.length());
                 stringBuffer.insert(0, code_template);

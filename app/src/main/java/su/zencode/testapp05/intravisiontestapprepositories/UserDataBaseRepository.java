@@ -1,4 +1,4 @@
-package su.zencode.testapp05.IntravisionTestAppRepositories;
+package su.zencode.testapp05.intravisiontestapprepositories;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,9 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 
 import su.zencode.testapp05.Config;
 import su.zencode.testapp05.Config.DbSchema.UserDataTable;
-import su.zencode.testapp05.IntravisionTestAppRepositories.Entities.WorkSheet;
-import su.zencode.testapp05.UserDataBase.UserCursorWrapper;
-import su.zencode.testapp05.UserDataBase.UserDataBaseHelper;
+import su.zencode.testapp05.intravisiontestapprepositories.entities.WorkSheet;
+import su.zencode.testapp05.userdatabase.UserCursorWrapper;
+import su.zencode.testapp05.userdatabase.UserDataBaseHelper;
 
 public class UserDataBaseRepository {
     private static UserDataBaseRepository sUserDataBaseRepository;

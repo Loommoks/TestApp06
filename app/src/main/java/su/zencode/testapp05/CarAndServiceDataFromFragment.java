@@ -16,14 +16,14 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import su.zencode.testapp05.ChooseDialog.ChooseDialogFragment;
-import su.zencode.testapp05.ChooseDialog.IChooseDialogListener;
-import su.zencode.testapp05.IntravisionTestAppApiClient.IntraVisionApiClient;
-import su.zencode.testapp05.IntravisionTestAppRepositories.Entities.CarClass;
-import su.zencode.testapp05.IntravisionTestAppRepositories.Entities.City;
-import su.zencode.testapp05.IntravisionTestAppRepositories.Entities.ShowRoom;
-import su.zencode.testapp05.IntravisionTestAppRepositories.Entities.WorkSheet;
-import su.zencode.testapp05.IntravisionTestAppRepositories.WorkSheetHolder;
+import su.zencode.testapp05.choosedialog.ChooseDialogFragment;
+import su.zencode.testapp05.choosedialog.IChooseDialogListener;
+import su.zencode.testapp05.intravisiontestappapiclient.IntraVisionApiClient;
+import su.zencode.testapp05.intravisiontestapprepositories.entities.CarClass;
+import su.zencode.testapp05.intravisiontestapprepositories.entities.City;
+import su.zencode.testapp05.intravisiontestapprepositories.entities.ShowRoom;
+import su.zencode.testapp05.intravisiontestapprepositories.entities.WorkSheet;
+import su.zencode.testapp05.intravisiontestapprepositories.WorkSheetHolder;
 
 public class CarAndServiceDataFromFragment extends Fragment implements IDataChecker{
     final String[] years = new String[14];

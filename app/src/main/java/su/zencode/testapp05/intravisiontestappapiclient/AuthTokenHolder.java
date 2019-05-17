@@ -1,4 +1,4 @@
-package su.zencode.testapp05.IntravisionTestAppApiClient;
+package su.zencode.testapp05.intravisiontestappapiclient;
 
 public class AuthTokenHolder {
     private static AuthTokenHolder sAuthTokenHolder;

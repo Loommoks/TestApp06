@@ -1,6 +1,6 @@
-package su.zencode.testapp05.IntravisionTestAppRepositories;
+package su.zencode.testapp05.intravisiontestapprepositories;
 
-import su.zencode.testapp05.IntravisionTestAppRepositories.Entities.WorkSheet;
+import su.zencode.testapp05.intravisiontestapprepositories.entities.WorkSheet;
 
 public class WorkSheetHolder {
     private static WorkSheetHolder sWorkSheetHolder;

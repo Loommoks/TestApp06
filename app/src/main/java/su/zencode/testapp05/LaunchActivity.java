@@ -11,10 +11,10 @@ import android.widget.Button;
 import android.widget.Toast;
 
 
-import su.zencode.testapp05.IntravisionTestAppApiClient.IntraVisionApiClient;
-import su.zencode.testapp05.IntravisionTestAppRepositories.Entities.WorkSheet;
-import su.zencode.testapp05.IntravisionTestAppRepositories.UserDataBaseRepository;
-import su.zencode.testapp05.IntravisionTestAppRepositories.WorkSheetHolder;
+import su.zencode.testapp05.intravisiontestappapiclient.IntraVisionApiClient;
+import su.zencode.testapp05.intravisiontestapprepositories.entities.WorkSheet;
+import su.zencode.testapp05.intravisiontestapprepositories.UserDataBaseRepository;
+import su.zencode.testapp05.intravisiontestapprepositories.WorkSheetHolder;
 
 public class LaunchActivity extends AppCompatActivity implements View.OnClickListener {
     private Button mReadyButton;
@@ -94,6 +94,7 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void sendBlank(final WorkSheet myWorkSheet) {
+
         new AsyncTask<Void, Void, Boolean>() {
 
             @Override

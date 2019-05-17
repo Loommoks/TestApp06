@@ -1,10 +1,10 @@
-package su.zencode.testapp05.UserDataBase;
+package su.zencode.testapp05.userdatabase;
 
 import android.database.Cursor;
 import android.database.CursorWrapper;
 
 import su.zencode.testapp05.Config.DbSchema.UserDataTable;
-import su.zencode.testapp05.IntravisionTestAppRepositories.Entities.WorkSheet;
+import su.zencode.testapp05.intravisiontestapprepositories.entities.WorkSheet;
 
 public class UserCursorWrapper extends CursorWrapper {
 

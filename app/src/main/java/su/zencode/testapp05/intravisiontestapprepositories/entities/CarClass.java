@@ -1,4 +1,4 @@
-package su.zencode.testapp05.IntravisionTestAppRepositories.Entities;
+package su.zencode.testapp05.intravisiontestapprepositories.entities;
 
 public class CarClass {
     private int mId;

@@ -1,4 +1,4 @@
-package su.zencode.testapp05.IntravisionTestAppApiClient;
+package su.zencode.testapp05.intravisiontestappapiclient;
 
 import android.util.Log;
 
@@ -23,13 +23,14 @@ import su.zencode.testapp05.Config.IntraVisionApi.JsonDeserializeMap;
 import su.zencode.testapp05.Config.IntraVisionApi.JsonSerializeMap;
 import su.zencode.testapp05.Config.IntraVisionApi.URI_PARAMETERS;
 import su.zencode.testapp05.Config.IntraVisionUrlsMap;
-import su.zencode.testapp05.IntravisionTestAppRepositories.Entities.CarClass;
-import su.zencode.testapp05.IntravisionTestAppRepositories.Entities.City;
-import su.zencode.testapp05.IntravisionTestAppRepositories.Entities.ShowRoom;
-import su.zencode.testapp05.IntravisionTestAppRepositories.Entities.WorkSheet;
+import su.zencode.testapp05.intravisiontestapprepositories.entities.CarClass;
+import su.zencode.testapp05.intravisiontestapprepositories.entities.City;
+import su.zencode.testapp05.intravisiontestapprepositories.entities.ShowRoom;
+import su.zencode.testapp05.intravisiontestapprepositories.entities.WorkSheet;
 
 public class IntraVisionApiClient implements IIntraVisionApiClient {
     private AuthTokenHolder mAuthTokenHolder;
+    private static final String TAG = ".IntraVisionApiClient";
     public static final MediaType JSON
             = MediaType.parse("application/json");
 
@@ -59,7 +60,7 @@ public class IntraVisionApiClient implements IIntraVisionApiClient {
                 return parseCarClassesJson(response.body().string());
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(TAG, "Classes request failed", e);
         }
         return null;
     }
@@ -87,6 +88,7 @@ public class IntraVisionApiClient implements IIntraVisionApiClient {
             }
         } catch (IOException e) {
             e.printStackTrace();
+            Log.e(TAG, "Cities request failed: " + e.getMessage(), e);
         }
         return null;
     }
@@ -118,7 +120,7 @@ public class IntraVisionApiClient implements IIntraVisionApiClient {
                 return parseShowRoomsJson(response.body().string());
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(TAG, "dealers request failed", e);
         }
         return null;
     }
@@ -139,7 +141,7 @@ public class IntraVisionApiClient implements IIntraVisionApiClient {
             threePlusOrder.put(JsonSerializeMap.CITY_ID, blank.getCityId());
             threePlusOrder.put(JsonSerializeMap.SHOWROOM_ID, blank.getShowRoomId());
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.e(TAG, "failed to fill Json", e);
         }
 
         if(mAuthTokenHolder.getToken() == null) {
@@ -168,7 +170,7 @@ public class IntraVisionApiClient implements IIntraVisionApiClient {
                 return false;
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(TAG, "sendWorkSheet request failed", e);
         }
         return false;
     }
@@ -195,7 +197,7 @@ public class IntraVisionApiClient implements IIntraVisionApiClient {
                 return parseTokenJson(response.body().string());
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(TAG, "token request failed", e);
         }
         return null;
     }
@@ -205,7 +207,7 @@ public class IntraVisionApiClient implements IIntraVisionApiClient {
             JSONObject jsonObject = new JSONObject(jsonBody);
             return jsonObject.getString(JsonDeserializeMap.ACCESS_TOKEN);
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.e(TAG, "Failed to parse Json-Token", e);
         }
         return null;
     }
@@ -223,7 +225,7 @@ public class IntraVisionApiClient implements IIntraVisionApiClient {
             }
             return classesArray;
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.e(TAG, "Failed to parse Json - car classes", e);
         }
         return null;
     }
@@ -241,7 +243,7 @@ public class IntraVisionApiClient implements IIntraVisionApiClient {
             }
             return citiesArray;
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.e(TAG, "Failed to parse Json - cities", e);
         }
         return null;
     }
@@ -260,7 +262,7 @@ public class IntraVisionApiClient implements IIntraVisionApiClient {
             }
             return showRoomsArray;
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.e(TAG, "Failed to parse Json - Dealers", e);
         }
         return null;
     }

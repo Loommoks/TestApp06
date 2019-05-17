@@ -1,4 +1,4 @@
-package su.zencode.testapp05.UserDataBase;
+package su.zencode.testapp05.userdatabase;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

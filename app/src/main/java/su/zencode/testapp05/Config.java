@@ -1,8 +1,6 @@
 package su.zencode.testapp05;
 
 public class Config {
-    public static class Settings {
-    }
 
     public static class IntraVisionApi {
 
@@ -53,18 +51,6 @@ public class Config {
             public static final String CITY_ID = "CityId";
         }
 
-        public static class Credentials {
-            public static final String USERNAME = "eapteka";
-            public static final String PASSWORD = "stage";
-        }
-    }
-
-    public static class IntraVisionHttp {
-        public static final long CONNECT_TIMEOUT = 15;
-        public static final long WRITE_TIMEOUT = 15;
-        public static final long READ_TIMEOUT = 30;
-        public static final boolean RETRY_ON_CONNECTION_FAILURE = true;
-
     }
 
     public static class IntraVisionUrlsMap {
@@ -95,21 +81,6 @@ public class Config {
                 /** Lazy type */
                 public static final String VIN = "Vin";
                 public static final String YEAR = "YEAR";
-            }
-
-            public static final class JsonSerialisation {
-
-                public static final String GENDER = "Gender";
-                public static final String LASTNAME = "LastName";
-                public static final String FIRSTNAME = "FirstName";
-                public static final String MIDDLENAME = "MiddleName";
-                public static final String EMAIL = "Email";
-                public static final String PHONE = "Phone";
-                public static final String VIN = "Vin";
-                public static final String Year = "YEAR";
-                public static final String CLASS_ID = "ClassId";
-                public static final String CITY_ID = "City";
-                public static final String SHOWROOM_ID = "ShowRoomId";
             }
         }
     }
